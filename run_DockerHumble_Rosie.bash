@@ -21,7 +21,7 @@ docker run -it \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix/:/tmp/.X11-unix" \
     --volume /dev:/dev \
-    --volume="/home/lmontagnon/Documents/Rosie_Project/ros-docker/share:/root/Documents/Rosie_Project/ros-docker/share" \
+    --volume="/<RepertoryWhereYouWantShareWithDocker>:/root/Documents/Rosie_Project/ros-docker/share" \
     lmontagnon/project_rosie:Image_HumbleZed_Rosie_V1p \
 
 echo "Done."
