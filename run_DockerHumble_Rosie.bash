@@ -1,24 +1,27 @@
 # If not working, first do: sudo rm -rf /tmp/.docker.xauth
 # It still not working, try running the script as root.
 ## Build the image first
-### docker build -t r2_path_planning .
-## then run this script
-xhost local:root
+### docker build -t <yourDockerfile> .
 
-
-XAUTH=/tmp/.docker.xauth
+xhost +local:docker
+#xhost +si:localuser:root
 
 
 docker run -it \
-    --name=Container_Humble_Rosie \
+    --name=Container_HumbleZED_Rosie_V1 \
+    --privileged \
+    --net=host \
+    --cap-add=NET_ADMIN \
+    --cap-add=SYS_ADMIN \
+    --device=/dev/net/tun \
+    --gpus all \
+    --runtime nvidia \
+    --env NVIDIA_DRIVER_CAPABILITIES=all \
     --env="DISPLAY=$DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
-    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    --env="XAUTHORITY=$XAUTH" \
-    --volume="$XAUTH:$XAUTH" \
-    --net=host \
-    --privileged \
-    osrf/ros:humble-desktop-full-jammy \
-    bash
+    --volume="/tmp/.X11-unix/:/tmp/.X11-unix" \
+    --volume /dev:/dev \
+    --volume="/home/lmontagnon/Documents/Rosie_Project/ros-docker/share:/root/Documents/Rosie_Project/ros-docker/share" \
+    lmontagnon/project_rosie:Image_HumbleZed_Rosie_V1p \
 
 echo "Done."
